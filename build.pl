@@ -32,8 +32,7 @@ my $dockerfile =  << "END";
 FROM $distro:$distroversion
 RUN ln -s /usr/share/zoneinfo/$timezone /etc/localtime && echo $timezone > /etc/timezone
 RUN set -xe && apt-get update && apt-get -y full-upgrade && apt-get -y install --no-install-recommends unzip wget ca-certificates \\
-build-essential cmake git libjson-c-dev libwebsockets-dev \\
-tini && \\
+build-essential cmake git libjson-c-dev libwebsockets-dev && \\
 cd /root && wget https://github.com/$repo/archive/refs/heads/$branch.zip && unzip $branch.zip && rm $branch.zip && \\
 cd /root/ttyd-$branch && mkdir build && cd build && cmake .. && make && make install && cd && rm -rf /root/ttyd-$branch
 END
@@ -57,7 +56,6 @@ if($user ne "") {
 	}
 }
 $dockerfile .=  << "END";
-ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["ttyd", "login"]
 END
 my ($fh, $filename) = tempfile;

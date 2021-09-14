@@ -18,7 +18,7 @@ GetOptions(
 	"firstpid=s", => \ $firstpid,
 	"interactive", => \ $interactive,
 ) or die "Wrong arguments";
-my $how="--rm --hostname $hostname --name $container";
+my $how="--rm --init --hostname $hostname --name $container";
 if($interactive ne "") {
 	$how .= " -it";
 } else {
