@@ -25,8 +25,8 @@ Arguments should be given in the form `--argument=value` or `--argument` when a 
 | branch | main | Which branch of that repo to use |
 | user | user | Name of the user to create |
 | pass | pass | Password for that user |
-| minimize | empty | Creates a small image (no manpages). This is a non-value argument |
-| sudo | empty | The created user will be able to become root. This is a non-value argument |
+| minimize | not set | Creates a small image (no manpages). This is a non-value argument |
+| sudo | not set | The created user will be able to become root. This is a non-value argument |
 
 ## Running the containers
 `./run.pl [--args]`
@@ -39,4 +39,4 @@ Arguments should be given in the form `--argument=value` or `--argument` when a 
 | container | websystem | Name the container should get |
 | hostname | websystem | Hostname the system in the container should use |
 | firstpid | login | Process that should be launched when connecting |
-| interactive | empty | When the container is launched from the shell STDOUT and STDIN will be in the shell. This is a non-value argument |
+| interactive | not set | When the container is launched from the shell STDOUT and STDIN will be in the shell. This is a non-value argument |
