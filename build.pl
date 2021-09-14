@@ -35,7 +35,7 @@ RUN set -xe && apt-get update && apt-get -y full-upgrade && apt-get -y install -
 build-essential cmake git libjson-c-dev libwebsockets-dev \\
 tini && \\
 cd /root && wget https://github.com/$repo/archive/refs/heads/$branch.zip && unzip $branch.zip && rm $branch.zip && \\
-cd /root/ttyd-$branch && mkdir build && cd build && cmake .. && make && make install
+cd /root/ttyd-$branch && mkdir build && cd build && cmake .. && make && make install && cd && rm -rf /root/ttyd-$branch
 END
 if($minimize ne "") {
 	chomp $dockerfile;
