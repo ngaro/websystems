@@ -18,7 +18,7 @@ GetOptions(
 	"secps=s", => \ $secondprocess,
 	"interactive", => \ $interactive,
 ) or die "Wrong arguments";
-my $how="--rm --init --hostname $hostname --name $container";
+my $how="--rm --hostname $hostname --name $container";
 if($interactive ne "") {
 	$how .= " -it";
 } else {
