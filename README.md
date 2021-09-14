@@ -3,7 +3,7 @@ Website to create and use virtual Linux systems (using containers)
 
 The current version just launches 1 system which:
 - is only reachable from the localhost
-- has a webbased interface on http://IP-OF-THE-CONTAINER:7681
+- has a webbased interface on http://IP-OF-THE-CONTAINER:7681<br>(`./run.pl` will the IP unless you are using `--interactive`)
 
 ## TODO
 - Good security
