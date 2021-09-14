@@ -39,3 +39,4 @@ Arguments should be given in the form `--argument=value` or `--argument` when a 
 | container | websystem | Name the container should get |
 | hostname | websystem | Hostname the system in the container should use |
 | firstpid | login | Process that should be launched when connecting |
+| interactive | empty | When the container is launched from the shell STDOUT and STDIN will be in the shell |
