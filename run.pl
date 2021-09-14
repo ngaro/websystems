@@ -8,6 +8,7 @@ my $tag="latest";
 my $hostname="websystem";
 my $firstpid="login";	#user can only get root rights when in sudo
 #my $firstpid="/bin/bash";	#user will have root rights
+my $interactive="";
 
 GetOptions(
 	"image=s", => \ $image,
@@ -15,5 +16,12 @@ GetOptions(
 	"tag=s", => \ $tag,
 	"hostname=s", => \ $hostname,
 	"firstpid=s", => \ $firstpid,
+	"interactive", => \ $interactive,
 ) or die "Wrong arguments";
-system "docker run -it --rm --hostname $hostname --name $container $image:$tag ttyd $firstpid";
+my $how="--rm --hostname $hostname --name $container";
+if($interactive ne "") {
+	$how .= " -it";
+} else {
+	$how .= " -d";
+}
+system "docker run $how --hostname $hostname --name $container $image:$tag ttyd $firstpid";
