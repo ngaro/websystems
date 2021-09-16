@@ -16,6 +16,6 @@ int main(int argc, char **argv) {
 	execargs[argc] = NULL;
 
 	execv(NEWINIT, execargs);
-	perror("execv");
+	perror("Can't run \"" NEWINIT "\"");
 	exit(EXIT_FAILURE);
 }
