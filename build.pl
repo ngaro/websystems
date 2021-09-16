@@ -28,7 +28,7 @@ GetOptions(
 	"pass=s", => \ $pass,
 ) or die "Wrong arguments";
 
-system("gcc init.c -Wall -Wextra -pedantic -o init");
+system("gcc myInit.c -Wall -Wextra -pedantic -o myInit");
 my $dockerfile =  << "END";
 FROM $distro:$distroversion
 RUN ln -s /usr/share/zoneinfo/$timezone /etc/localtime && echo $timezone > /etc/timezone
@@ -57,8 +57,8 @@ if($user ne "") {
 	}
 }
 $dockerfile .=  << "END";
-COPY init /sbin/init
-CMD ["ttyd", "login"]
+COPY myInit /sbin/init
+CMD ["myInit", "login"]
 END
 my ($fh, $filename) = tempfile;
 print $fh $dockerfile;
