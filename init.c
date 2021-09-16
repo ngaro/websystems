@@ -22,6 +22,6 @@ int main(int argc, char **argv) {
 	execargs[argc] = NULL;
 
 	execv(NEWINIT, execargs);
-	perror("Error: Can't run \"" NEWINIT "\"");
+	fprintf(stderr, "Error: Can't run \"" NEWINIT "\": %s\n", strerror(errno));
 	exit(EXIT_FAILURE);
 }
