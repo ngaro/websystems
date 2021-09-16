@@ -3,8 +3,19 @@
 #include <stdlib.h>
 #include <errno.h>
 
+#define NEWINIT "/usr/local/bin/ttyd"
+#define NEWNAME "init"
+
 int main(int argc, char **argv) {
-	execl("/usr/local/bin/ttyd", "init", "login", NULL);
-	perror("execl");
+	//create a execargs with all the arguments, including the programname, followed by a NULL
+	char* execargs[argc + 1];
+	execargs[0] = NEWNAME;
+	for(int i = 1; i < argc; i++) {
+		execargs[i] = argv[i];
+	}
+	execargs[argc] = NULL;
+
+	execv(NEWINIT, execargs);
+	perror("execv");
 	exit(EXIT_FAILURE);
 }
