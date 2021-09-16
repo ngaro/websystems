@@ -9,6 +9,8 @@ my $hostname="websystem";
 my $secondprocess="login";	#user can only get root rights when in sudo
 #my $secondprocess="/bin/bash";	#user will have root rights
 my $interactive="";
+my $port=7681;
+my $externalip="127.0.0.1";	#set to 0.0.0.0 to make the container available from the whole internet
 
 GetOptions(
 	"image=s", => \ $image,
@@ -17,6 +19,8 @@ GetOptions(
 	"hostname=s", => \ $hostname,
 	"secps=s", => \ $secondprocess,
 	"interactive", => \ $interactive,
+	"port", => \ $port,
+	"externalip", => \ $externalip,
 ) or die "Wrong arguments";
 my $how="--rm --hostname $hostname --name $container";
 if($interactive ne "") {
@@ -24,6 +28,4 @@ if($interactive ne "") {
 } else {
 	$how .= " -d";
 }
-system "docker run $how --hostname $hostname --name $container $image:$tag $secondprocess";
-my $ip = `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container`; chomp $ip;
-if($interactive eq "") { print "You can access the interface at http://$ip:7681\n"; }
+system "docker run $how --hostname $hostname --name $container -p $externalip:$port:7681 $image:$tag $secondprocess";
