@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 #define NEWINIT "/usr/local/bin/ttyd"
 #define NEWNAME "init"
