@@ -24,6 +24,10 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "\"%s\": Not a regular file\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
+	if( ! (programinfo.st_mode & S_IXUSR)) {
+		fprintf(stderr, "\"%s\": Not executable\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
 
 	//create a execargs with all the arguments, including the programname, followed by a NULL
 	char* execargs[argc + 1];
