@@ -7,8 +7,14 @@
 #include <string.h>
 #include <stdarg.h>
 
-#define NEWINIT "/usr/local/bin/ttyd"
-#define NEWNAME "init"
+#ifndef OWNDEFINES
+	#ifdef DEBUG
+		#define NEWINIT "/bin/echo"
+	#else
+		#define NEWINIT "/usr/local/bin/ttyd"
+	#endif
+	#define NEWNAME "init"
+#endif
 
 //print a error to stderr and exit
 void dieWithError(const char *format, ...) {
