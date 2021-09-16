@@ -24,6 +24,6 @@ if($interactive ne "") {
 } else {
 	$how .= " -d";
 }
-system "docker run $how --hostname $hostname --name $container $image:$tag init $secondprocess";
+system "docker run $how --hostname $hostname --name $container $image:$tag $secondprocess";
 my $ip = `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container`; chomp $ip;
 if($interactive eq "") { print "You can access the interface at http://$ip:7681\n"; }

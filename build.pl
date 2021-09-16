@@ -58,7 +58,8 @@ if($user ne "") {
 }
 $dockerfile .=  << "END";
 COPY myInit /sbin/init
-CMD ["myInit", "login"]
+ENTRYPOINT ["/sbin/init"]
+CMD ["/bin/login"]
 END
 my ($fh, $filename) = tempfile;
 print $fh $dockerfile;
