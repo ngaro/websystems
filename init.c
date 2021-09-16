@@ -5,29 +5,40 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
+#include <stdarg.h>
 
 #define NEWINIT "/usr/local/bin/ttyd"
 #define NEWNAME "init"
 
+//print a error to stderr and exit
+void dieWithError(const char *format, ...) {
+	va_list arguments;
+	const char beforeFormat[] = "Error: ";
+	char fullFormat[strlen(beforeFormat) + strlen(format) + 1];
+
+	sprintf(fullFormat, "%s%s", beforeFormat, format);
+	va_start(arguments, format);
+	vfprintf(stderr, fullFormat, arguments);
+	va_end(arguments);
+	exit(EXIT_FAILURE);
+}
+
+//exit with error if 'program' is not an executable file,
+void checkIfExecutable(const char *program) {
+	struct stat programinfo;
+
+	if(stat(program, &programinfo) == -1)
+		dieWithError("\"%s\": %s\n", program, strerror(errno));
+	if((programinfo.st_mode & S_IFMT) != S_IFREG)
+		dieWithError("\"%s\": Not a regular file\n", program);
+	if( ! (programinfo.st_mode & S_IXUSR))
+		dieWithError("\"%s\": Not executable\n", program);
+}
+
 int main(int argc, char **argv) {
 	//Check if arguments are correct
-	if( argc < 2) {
-		fprintf(stderr, "Error: Provide the argument to run in \"" NEWINIT "\"\n");
-		exit(EXIT_FAILURE);
-	}
-	struct stat programinfo;
-	if(stat(argv[1], &programinfo) == -1) {
-		fprintf(stderr, "Can't find information about \"%s\" : %s\n", argv[1], strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-	if((programinfo.st_mode & S_IFMT) != S_IFREG) {
-		fprintf(stderr, "\"%s\": Not a regular file\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
-	if( ! (programinfo.st_mode & S_IXUSR)) {
-		fprintf(stderr, "\"%s\": Not executable\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
+	if( argc < 2) dieWithError("Provide the argument to run in \"" NEWINIT "\"\n");
+	checkIfExecutable(argv[1]);
 
 	//create a execargs with all the arguments, including the programname, followed by a NULL
 	char* execargs[argc + 1];
@@ -38,6 +49,5 @@ int main(int argc, char **argv) {
 	execargs[argc] = NULL;
 
 	execv(NEWINIT, execargs);
-	fprintf(stderr, "Error: Can't run \"" NEWINIT "\": %s\n", strerror(errno));
-	exit(EXIT_FAILURE);
+	dieWithError("Can't run \"" NEWINIT "\": %s\n", strerror(errno));
 }
