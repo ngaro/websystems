@@ -36,8 +36,11 @@ Arguments should be given in the form `--argument=value` or `--argument` when a 
 | Argument | Default | Purpose |
 | ----------- | ----------- | ----- |
 | image | websystem | Name of the image to use |
-| tag | latest | Tag of the new image |
 | container | websystem | Name the container should get |
+| tag | latest | Tag of the new image |
 | hostname | websystem | Hostname the system in the container should use |
 | secps | login | 2nd process that should be launched (child of ttyd) |
+| extip | 127.0.0.0.1 | External IP of the webinterface |
+| extport | 8123 | External tcp-port on which the webinterface will run |
 | interactive | not set | When the container is launched from the shell STDOUT and STDIN will be in the shell. This is a non-value argument |
+| nosysbox | not set | when set the regular runtime will be used instead of sysbox.  This is a non-value argument |

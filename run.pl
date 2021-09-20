@@ -10,8 +10,9 @@ my $hostname="websystem";
 my $secondprocess="login";	#user can only get root rights when in sudo
 #my $secondprocess="/bin/bash";	#user will have root rights
 my $interactive="";
-my $port=7681;
-my $externalip="127.0.0.1";	#set to 0.0.0.0 to make the container available from the whole internet
+my $extport=7681;
+my $extip="127.0.0.1";	#set to 0.0.0.0 to make the container available from the whole internet
+my $nosysbox="";
 
 GetOptions(
 	"image=s", => \ $image,
@@ -19,14 +20,17 @@ GetOptions(
 	"tag=s", => \ $tag,
 	"hostname=s", => \ $hostname,
 	"secps=s", => \ $secondprocess,
+	"extip=s", => \ $extip,
+	"extport=s", => \ $extport,
 	"interactive", => \ $interactive,
-	"port", => \ $port,
-	"externalip", => \ $externalip,
+	"nosysbox", => \ $nosysbox,
 ) or die "Wrong arguments";
-my $how="--rm --hostname $hostname --name $container";
+my $how="--rm --hostname $hostname --name $container -p $extip:$extport:7681";
 if($interactive ne "") {
 	$how .= " -it";
 } else {
 	$how .= " -d";
 }
-system "docker run $how --hostname $hostname --name $container -p $externalip:$port:7681 $image:$tag $secondprocess";
+my $sysbox="";
+$sysbox="--runtime=sysbox-runci" if($nosysbox eq "");
+system "docker run $sysbox $how $image:$tag $secondprocess";
