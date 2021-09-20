@@ -14,14 +14,14 @@ my $interactive="";
 my $nosysbox="";
 
 GetOptions(
-	"image=s", => \ $image,
-	"container=s", => \ $container,
-	"hostname=s", => \ $hostname,
-	"secps=s", => \ $secondprocess,
-	"extip=s", => \ $extip,
-	"extport=s", => \ $extport,
-	"interactive", => \ $interactive,
-	"nosysbox", => \ $nosysbox,
+	"image|b=s", => \ $image,
+	"container|c=s", => \ $container,
+	"hostname|h=s", => \ $hostname,
+	"secps|s=s", => \ $secondprocess,
+	"extip|I=s", => \ $extip,
+	"extport|P=s", => \ $extport,
+	"interactive|i", => \ $interactive,
+	"nosysbox|n", => \ $nosysbox,
 ) or die "Wrong arguments";
 my $how="--rm --hostname $hostname --name $container -p $extip:$extport:7681";
 if($interactive ne "") {
