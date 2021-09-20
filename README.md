@@ -36,9 +36,8 @@ Arguments should be given in the form `--argument=value` or `--argument` when a 
 Arguments should be given in the form `--argument=value` or `--argument` when a value is not required
 | Argument | Default | Purpose |
 | ----------- | ----------- | ----- |
-| image | websystem | Name of the image to use |
+| image | websystem:latest | Image to use (include the tag) |
 | container | websystem | Name the container should get |
-| tag | latest | Tag of the new image |
 | hostname | websystem | Hostname the system in the container should use |
 | secps | login | 2nd process that should be launched (child of ttyd) |
 | extip | 127.0.0.0.1 | External IP of the webinterface |
