@@ -30,5 +30,5 @@ if($interactive ne "") {
 	$how .= " -d";
 }
 my $sysbox="";
-$sysbox="--runtime=sysbox-runci" if($nosysbox eq "");
+$sysbox="--runtime=sysbox-runc" if($nosysbox eq "");
 system "docker run $sysbox $how $image $secondprocess";
