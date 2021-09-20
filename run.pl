@@ -1,4 +1,5 @@
 #!env perl
+use v5.24;
 use strict;
 use warnings;
 use Getopt::Long;
