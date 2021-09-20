@@ -5,16 +5,16 @@ use warnings;
 use File::Temp qw/tempfile/;
 use Getopt::Long;
 
-my $image="websystem";
-my $user="user";
-my $tag="latest";
+my $image="websystem"; my $tag="latest";
 my $distro="ubuntu"; my $distroversion="20.04";
 my $timezone="Europe/Brussels";
 my $repo="tsl0922/ttyd"; my $branch="main";
+my $user="user";
+my $pass="pass";
 my $minimize='';
 my $sudo='';
-my $dockerfileonly='';
-my $pass="pass";
+my $keepdockerfile='';
+my $nobuild='';
 
 GetOptions(
 	"image=s", => \ $image,
@@ -28,7 +28,8 @@ GetOptions(
 	"pass=s", => \ $pass,
 	"minimize", => \ $minimize,
 	"sudo", => \ $sudo,
-	"dockerfile-only", => \ $dockerfileonly,
+	"keepdockerfile", => \ $keepdockerfile,
+	"nobuild", => \ $nobuild,
 ) or die "Wrong arguments";
 
 system("gcc myInit.c -Wall -Wextra -pedantic -o myInit");
@@ -67,9 +68,11 @@ END
 my ($fh, $filename) = tempfile;
 print $fh $dockerfile;
 close($filename);
-if($dockerfileonly eq '') {
-	system "docker build -t $image:$tag --file=$filename .";
-	unlink $filename;
-} else {
+if($keepdockerfile ne '') {
 	say "The Dockerfile is available in `$filename`";
+} else {
+	unlink $filename;
+}
+if($nobuild ne '') {
+	system "docker build -t $image:$tag --file=$filename .";
 }
