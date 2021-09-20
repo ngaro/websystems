@@ -12,6 +12,7 @@ my $timezone="Europe/Brussels";
 my $repo="tsl0922/ttyd"; my $branch="main";
 my $minimize='';
 my $sudo='';
+my $dockerfileonly='';
 my $pass="pass";
 
 GetOptions(
@@ -22,10 +23,11 @@ GetOptions(
 	"timezone=s", => \ $timezone,
 	"repo=s", => \ $repo,
 	"branch=s", => \ $branch,
-	"minimize", => \ $minimize,
-	"sudo", => \ $sudo,
 	"user=s", => \ $user,
 	"pass=s", => \ $pass,
+	"minimize", => \ $minimize,
+	"sudo", => \ $sudo,
+	"dockerfile-only", => \ $dockerfileonly,
 ) or die "Wrong arguments";
 
 system("gcc myInit.c -Wall -Wextra -pedantic -o myInit");
@@ -64,5 +66,9 @@ END
 my ($fh, $filename) = tempfile;
 print $fh $dockerfile;
 close($filename);
-system "docker build -t $image:$tag --file=$filename .";
-unlink $filename;
+if($dockerfileonly eq '') {
+	system "docker build -t $image:$tag --file=$filename .";
+	unlink $filename;
+} else {
+	say "The Dockerfile is available in `$filename`";
+}

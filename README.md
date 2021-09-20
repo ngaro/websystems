@@ -27,6 +27,7 @@ Arguments should be given in the form `--argument=value` or `--argument` when a 
 | pass | pass | Password for that user |
 | minimize | not set | Creates a small image (no manpages). This is a non-value argument |
 | sudo | not set | The created user will be able to become root. This is a non-value argument |
+| dockerfile-only | not set | `Dockerfile` will be generated but image will not be build. This is a non-value argument |
 
 ## Running the containers
 `./run.pl [--args]`
