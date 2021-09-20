@@ -17,19 +17,19 @@ my $keepdockerfile='';
 my $nobuild='';
 
 GetOptions(
-	"image=s", => \ $image,
-	"tag=s", => \ $tag,
-	"distro=s", => \ $distro,
-	"distroversion=s", => \ $distroversion,
-	"timezone=s", => \ $timezone,
-	"repo=s", => \ $repo,
-	"branch=s", => \ $branch,
-	"user=s", => \ $user,
-	"pass=s", => \ $pass,
-	"minimize", => \ $minimize,
-	"sudo", => \ $sudo,
-	"keepdockerfile", => \ $keepdockerfile,
-	"nobuild", => \ $nobuild,
+	"image|i=s", => \ $image,
+	"tag|t=s", => \ $tag,
+	"distro|d=s", => \ $distro,
+	"distroversion|v=s", => \ $distroversion,
+	"timezone|z=s", => \ $timezone,
+	"repo|r=s", => \ $repo,
+	"branch|b=s", => \ $branch,
+	"user|u=s", => \ $user,
+	"pass|p=s", => \ $pass,
+	"minimize|m", => \ $minimize,
+	"sudo|s", => \ $sudo,
+	"keepdockerfile|k", => \ $keepdockerfile,
+	"nobuild|n", => \ $nobuild,
 ) or die "Wrong arguments";
 
 system("gcc myInit.c -Wall -Wextra -pedantic -o myInit");
@@ -68,11 +68,13 @@ END
 my ($fh, $filename) = tempfile;
 print $fh $dockerfile;
 close($filename);
+if($nobuild ne '') {
+	print $dockerfile;
+} else {
+	system "docker build -t $image:$tag --file=$filename .";
+}
 if($keepdockerfile ne '') {
-	say "The Dockerfile is available in `$filename`";
+	say "\nThe Dockerfile is available in `$filename`";
 } else {
 	unlink $filename;
-}
-if($nobuild ne '') {
-	system "docker build -t $image:$tag --file=$filename .";
 }
